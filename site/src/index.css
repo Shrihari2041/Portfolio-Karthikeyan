@@ -1,0 +1,164 @@
+/* ============================================================
+   Karthikeyan Portfolio — design tokens & base styles
+   Warm editorial "modern consultant": off-white, dark ink,
+   deep-teal accent.
+   ============================================================ */
+
+:root {
+  /* Light surfaces */
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --ink: #1c1a17;
+  --muted: #5c574f;
+  --faint: #8a8478;
+  --border: #e8e4de;
+  --border-strong: #d9d4cc;
+
+  /* Teal accent */
+  --accent: #0e7568;
+  --accent-dark: #0a5c52;
+  --accent-tint: #e3efeb;
+  --accent-tint-2: #dcebe7;
+  --accent-tint-border: #c8ded8;
+  --accent-hover-border: #b9d6cf;
+
+  /* Dark band */
+  --dark-bg: #16211f;
+  --dark-text: #f3f1ec;
+  --dark-muted: #c4c0b6;
+  --dark-faint: #8f8b81;
+  --dark-border: #2c3f3b;
+  --dark-border-2: #3a4f4a;
+  --dark-panel: #1c2b28;
+  --teal-light: #7fc2b5;
+
+  --maxw: 1140px;
+  --font-display: 'Sora', system-ui, sans-serif;
+  --font-body: 'Instrument Sans', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover { color: var(--accent-dark); }
+
+img { max-width: 100%; display: block; }
+
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.section-pad { padding-top: clamp(56px, 8vw, 96px); padding-bottom: clamp(56px, 8vw, 96px); }
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.eyebrow.on-dark { color: var(--teal-light); }
+
+.section-head { max-width: 640px; }
+.section-head h2 {
+  font-size: clamp(26px, 3.4vw, 38px);
+  margin: 12px 0 0;
+  text-wrap: pretty;
+}
+.section-head p {
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 14px 0 0;
+}
+
+/* ------------------------------------------------------------
+   Scroll-reveal + counter animation helpers
+   ------------------------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .marquee-track { animation: none !important; }
+  .wa-fab { animation: none !important; }
+}
+
+/* ------------------------------------------------------------
+   Buttons
+   ------------------------------------------------------------ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 14px rgba(14, 117, 104, 0.25);
+}
+.btn-primary:hover {
+  background: var(--accent-dark);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(14, 117, 104, 0.35);
+}
+.btn-ghost {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1.5px solid var(--border-strong);
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+.btn-outline-dark {
+  background: transparent;
+  color: var(--dark-text);
+  border: 1.5px solid var(--dark-border-2);
+}
+.btn-outline-dark:hover {
+  border-color: var(--teal-light);
+  color: var(--teal-light);
+  transform: translateY(-2px);
+}
+.btn-lg { font-size: 16px; padding: 14px 26px; }
+.btn-sm { font-size: 14px; padding: 10px 20px; }

@@ -1,0 +1,9 @@
+# Node / Vite build output
+site/node_modules/
+site/dist/
+site/dist-ssr/
+site/.vite/
+*.local
+.DS_Store
+npm-debug.log*
+yarn-error.log*

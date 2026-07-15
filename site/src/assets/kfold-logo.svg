@@ -1,0 +1,6 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="kfold.co">
+  <!-- pie-chart 'o' mark from the kfold.co wordmark: red ring with a black wedge -->
+  <circle cx="60" cy="60" r="44" fill="none" stroke="#e23b2e" stroke-width="16"/>
+  <path d="M60 60 L60 8 A52 52 0 0 1 105.03 34 Z" fill="#1c1a17"/>
+  <circle cx="60" cy="60" r="10" fill="#ffffff"/>
+</svg>
