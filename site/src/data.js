@@ -3,8 +3,8 @@
    Edit here to update the portfolio's text, services, etc.
    ============================================================ */
 
-import digitalsInfoLogo from './assets/digitals-info-logo.svg'
-import kfoldLogo from './assets/kfold-logo.svg'
+import digitalsInfoLogo from './assets/digitals-info-logo.png'
+import kfoldLogo from './assets/kfold-logo.png'
 
 // Contact / external links — verify these stay current.
 export const links = {
@@ -99,8 +99,6 @@ export const aboutStats = [
 export const ventures = [
   {
     name: 'Digitals Info',
-    // To use the exact original raster logo, replace this import in data.js
-    // with your PNG (e.g. `import digitalsInfoLogo from './assets/digitals-info-logo.png'`).
     logo: digitalsInfoLogo,
     url: links.digitalsInfo,
     tagline: 'Digital marketing & web development',

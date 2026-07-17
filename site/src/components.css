@@ -221,24 +221,148 @@
 }
 .tag--onwhite { background: var(--bg); }
 
-/* ---------- Services ---------- */
-.services {
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+/* ---------- Services (scroll-driven stacked cards) ---------- */
+.services-stack {
+  position: relative;
+  isolation: isolate; /* contain card z-indexes below the sticky nav */
+  background: var(--dark-bg);
+  color: var(--dark-text);
 }
-.service-card {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 28px 26px;
-  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-  cursor: default;
+.services-sticky {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(40px, 7vh, 72px) 0;
 }
-.service-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 14px 32px rgba(28, 26, 23, 0.09);
-  border-color: var(--accent-hover-border);
+.services-stack .section-head h2 { color: var(--dark-text); }
+
+.stack-viewport { position: relative; margin-top: clamp(20px, 4vh, 40px); }
+
+/* Left progress rail */
+.stack-rail {
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 14px 0;
+  z-index: 10;
+}
+.stack-rail::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--dark-border);
+  transform: translateX(-50%);
+}
+.stack-dot {
+  position: relative;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--dark-border-2);
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+.stack-dot.is-done { background: var(--teal-light); opacity: 0.55; }
+.stack-dot.is-active {
+  background: var(--teal-light);
+  transform: scale(1.5);
+  box-shadow: 0 0 0 4px rgba(127, 194, 181, 0.16);
+}
+
+/* The stacked deck */
+.stack-cards {
+  position: relative;
+  height: clamp(390px, 54vh, 470px);
+  margin-left: clamp(24px, 5vw, 56px);
+}
+.stack-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(560px, 100%);
+  min-height: 100%;
+  padding: clamp(28px, 4vw, 40px);
+  background: var(--dark-panel);
+  border: 1px solid var(--dark-border);
+  border-radius: 22px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.42);
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+.stack-ghost {
+  position: absolute;
+  top: -0.28em;
+  right: 0.05em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(140px, 22vw, 240px);
+  line-height: 1;
+  color: rgba(243, 241, 236, 0.045);
+  pointer-events: none;
+  user-select: none;
+}
+.stack-index {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  color: var(--teal-light);
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(127, 194, 181, 0.28);
+  display: inline-block;
+  margin-bottom: 22px;
+}
+.stack-index span { color: var(--dark-faint); }
+.stack-card .service-icon {
+  background: rgba(127, 194, 181, 0.12);
+  color: var(--teal-light);
+  margin-bottom: 20px;
+}
+.stack-card .card-title {
+  color: var(--dark-text);
+  font-size: clamp(20px, 2.4vw, 26px);
+  margin: 0 0 12px;
+}
+.stack-card .card-desc {
+  color: var(--dark-muted);
+  font-size: 15.5px;
+  max-width: 44ch;
+}
+.stack-card .tag {
+  color: var(--dark-muted);
+  background: transparent;
+  border-color: var(--dark-border-2);
+}
+
+/* Reduced-motion fallback: static readable stack */
+.services-stack--static { padding: 0; }
+.services-stack--static .services-sticky { position: static; min-height: 0; }
+.stack-static-grid {
+  display: grid;
+  gap: 18px;
+  margin-top: 36px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+.stack-card.is-static {
+  position: static;
+  width: auto;
+  min-height: 0;
+  box-shadow: none;
+  transform: none;
+}
+
+@media (max-width: 620px) {
+  .stack-rail { display: none; }
+  .stack-cards { margin-left: 0; }
 }
 .service-icon {
   width: 46px;
@@ -295,6 +419,18 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Warm editorial grade so the portrait matches the site's tone */
+  filter: saturate(1.05) contrast(1.04) brightness(1.02) sepia(0.12);
+}
+/* Blend the photo into the dark teal band + subtle teal inner edge */
+.about-photo-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(22, 33, 31, 0) 62%, rgba(22, 33, 31, 0.42));
+  box-shadow: inset 0 0 0 1px rgba(127, 194, 181, 0.16);
 }
 .about-copy { flex: 1 1 480px; min-width: 300px; }
 .about-title {
