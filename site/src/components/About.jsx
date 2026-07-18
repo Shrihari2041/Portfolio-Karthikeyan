@@ -4,7 +4,7 @@ import aboutPortrait from '../assets/about-portrait.png'
 
 export default function About() {
   return (
-    <section id="about" className="about">
+    <section id="about" className="about" data-spotlight>
       <div className="wrap section-pad">
         <div className="about-grid">
           <div className="about-photo-col" data-reveal="">

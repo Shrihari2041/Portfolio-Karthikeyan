@@ -1,4 +1,5 @@
 import { useReveal } from './hooks/useReveal'
+import { useSpotlight } from './hooks/useSpotlight'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import Services from './components/Services'
@@ -12,6 +13,7 @@ import WhatsAppButton from './components/WhatsAppButton'
 
 export default function App() {
   useReveal()
+  useSpotlight()
 
   return (
     <>

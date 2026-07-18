@@ -2,7 +2,7 @@ import { links } from '../data'
 
 export default function Contact() {
   return (
-    <section id="contact" className="contact">
+    <section id="contact" className="contact" data-spotlight>
       <div className="wrap section-pad">
         <div className="contact-grid">
           <div className="contact-copy" data-reveal="">

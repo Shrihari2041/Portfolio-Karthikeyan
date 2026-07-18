@@ -6,6 +6,9 @@ import { useEffect } from 'react'
  */
 export function useReveal() {
   useEffect(() => {
+    // Signals JS is active so the hidden pre-reveal state applies (see index.css).
+    document.documentElement.classList.add('reveal-ready')
+
     const els = Array.from(document.querySelectorAll('[data-reveal]'))
     if (!els.length) return
 

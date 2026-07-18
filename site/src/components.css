@@ -181,6 +181,44 @@
 }
 .hero-photo-role { font-size: 12px; color: var(--faint); }
 
+/* Hero entrance — staggered rise on load */
+@keyframes heroRise {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-in > * { animation: heroRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.hero-in > *:nth-child(1) { animation-delay: 0.05s; }
+.hero-in > *:nth-child(2) { animation-delay: 0.15s; }
+.hero-in > *:nth-child(3) { animation-delay: 0.25s; }
+.hero-in > *:nth-child(4) { animation-delay: 0.35s; }
+.hero-in > *:nth-child(5) { animation-delay: 0.45s; }
+.hero-in-photo { animation: heroRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-in > *,
+  .hero-in-photo { animation: none; }
+}
+
+/* Ambient cursor spotlight on dark sections */
+[data-spotlight] { position: relative; }
+[data-spotlight]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    440px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(127, 194, 181, 0.16),
+    transparent 62%
+  );
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+[data-spotlight].spot-active::before { opacity: 1; }
+/* keep section content above the glow */
+.about > .wrap,
+.contact > .wrap { position: relative; z-index: 1; }
+
 /* ---------- Shared cards ---------- */
 .card-grid {
   display: grid;
@@ -377,6 +415,11 @@
   margin-bottom: 22px;
 }
 .stack-index span { color: var(--dark-faint); }
+/* On desktop the left rail + right numeric index already show position,
+   so the per-card counter is redundant — hide it there, keep it on mobile. */
+@media (min-width: 721px) {
+  .stack-cards .stack-index { display: none; }
+}
 .stack-card .service-icon {
   background: rgba(127, 194, 181, 0.12);
   color: var(--teal-light);
@@ -437,26 +480,64 @@
   justify-content: center;
 }
 
-/* ---------- Process ---------- */
-.step-card {
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 28px 26px;
-  background: var(--surface);
-  transition: transform 0.25s, box-shadow 0.25s;
+/* ---------- Process (animated timeline) ---------- */
+.timeline {
+  position: relative;
+  margin-top: clamp(32px, 5vw, 48px);
+  max-width: 720px;
 }
-.step-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(28, 26, 23, 0.08);
+.timeline-line {
+  position: absolute;
+  left: 23px;
+  top: 12px;
+  bottom: 46px;
+  width: 2px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
 }
-.step-num {
+.timeline-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+}
+.timeline-step {
+  position: relative;
+  display: flex;
+  gap: clamp(18px, 3vw, 28px);
+  padding-bottom: clamp(32px, 5vw, 48px);
+}
+.timeline-step:last-child { padding-bottom: 0; }
+.timeline-node {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 15px;
-  color: var(--accent);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  color: var(--faint);
+  transition: color 0.35s, border-color 0.35s, box-shadow 0.35s, transform 0.35s;
 }
-.step-card .card-title { margin: 12px 0 8px; }
-.step-card .card-desc { margin: 0; }
+.timeline-node.is-active {
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 5px var(--accent-tint);
+  transform: scale(1.05);
+}
+.timeline-content { padding-top: 9px; }
+.timeline-content .card-title { margin: 0 0 8px; }
+.timeline-content .card-desc { margin: 0; max-width: 52ch; }
 
 /* ---------- About (dark band) ---------- */
 .about {

@@ -6,7 +6,7 @@ export default function Hero() {
   return (
     <header id="home" className="wrap hero">
       <div className="hero-grid">
-        <div className="hero-copy" data-reveal="">
+        <div className="hero-copy hero-in">
           <div className="badge">
             <span className="badge-dot" />
             Founder — Digitals Info &amp; kfold.co
@@ -43,8 +43,8 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="hero-photo-col" data-reveal="">
-          <div className="hero-photo-frame">
+        <div className="hero-photo-col">
+          <div className="hero-photo-frame hero-in-photo">
             <div className="hero-photo-backing" />
             <div className="hero-photo-media">
               <img src={heroPortrait} alt="Karthikeyan, Business Growth Strategist" />

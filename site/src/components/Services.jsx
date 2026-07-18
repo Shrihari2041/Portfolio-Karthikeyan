@@ -124,6 +124,7 @@ export default function Services() {
     <section
       id="services"
       className="services-stack"
+      data-spotlight
       ref={sectionRef}
       style={{ height: `calc(${N} * 112vh)` }}
     >
