@@ -49,7 +49,7 @@ function ServiceCardBody({ svc, i }) {
 
 export default function Services() {
   const sectionRef = useRef(null)
-  const [progress, setProgress] = useState(0) // 0 .. N-1
+  const [progress, setProgress] = useState(0) // raw 0 .. N-1
   const [reduce, setReduce] = useState(false)
 
   useEffect(() => {
@@ -110,34 +110,75 @@ export default function Services() {
     )
   }
 
-  const activeIndex = Math.round(progress)
+  // Dwell easing: hold each card, then transition — so cards advance one at a time.
+  const seg = Math.min(Math.floor(progress), N - 1)
+  const frac = progress - seg
+  const HOLD = 0.45
+  let t = frac <= HOLD ? 0 : (frac - HOLD) / (1 - HOLD)
+  t = t * t * (3 - 2 * t) // smoothstep
+  const effProgress = seg + t
+  const prog01 = N > 1 ? effProgress / (N - 1) : 0
+  const activeIndex = Math.round(effProgress)
 
   return (
     <section
       id="services"
       className="services-stack"
       ref={sectionRef}
-      style={{ height: `calc(${N} * 78vh)` }}
+      style={{ height: `calc(${N} * 112vh)` }}
     >
       <div className="services-sticky">
         <div className="wrap">
           {head}
           <div className="stack-viewport">
+            {/* Left rail: line with start/end caps + progress fill + step dots */}
             <div className="stack-rail" aria-hidden="true">
+              <div className="rail-track">
+                <div className="rail-fill" style={{ height: `${prog01 * 100}%` }} />
+              </div>
+              <div className="rail-dots">
+                {services.map((_, i) => (
+                  <span
+                    key={i}
+                    className={`stack-dot${i === activeIndex ? ' is-active' : ''}${
+                      i < activeIndex ? ' is-done' : ''
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="stack-cards">
+              {services.map((svc, i) => (
+                <article key={svc.title} className="stack-card" style={cardStyle(i - effProgress)}>
+                  <ServiceCardBody svc={svc} i={i} />
+                </article>
+              ))}
+            </div>
+
+            {/* Right numeric index */}
+            <div className="stack-nums" aria-hidden="true">
               {services.map((_, i) => (
                 <span
                   key={i}
-                  className={`stack-dot${i === activeIndex ? ' is-active' : ''}${
+                  className={`stack-num${i === activeIndex ? ' is-active' : ''}${
+                    i < activeIndex ? ' is-done' : ''
+                  }`}
+                >
+                  {pad2(i + 1)}
+                </span>
+              ))}
+            </div>
+
+            {/* Mobile segmented indicator */}
+            <div className="stack-mobile-bar" aria-hidden="true">
+              {services.map((_, i) => (
+                <span
+                  key={i}
+                  className={`mbar-seg${i === activeIndex ? ' is-active' : ''}${
                     i < activeIndex ? ' is-done' : ''
                   }`}
                 />
-              ))}
-            </div>
-            <div className="stack-cards">
-              {services.map((svc, i) => (
-                <article key={svc.title} className="stack-card" style={cardStyle(i - progress)}>
-                  <ServiceCardBody svc={svc} i={i} />
-                </article>
               ))}
             </div>
           </div>
